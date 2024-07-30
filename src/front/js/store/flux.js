@@ -9,6 +9,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 		},
 		actions: {
 			profile: async () => {
+				const store = getStore();
 				const requestOptions = {
 					method: "GET",
 					headers: {
@@ -22,6 +23,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 					if (response.status === 200) {
 						setStore({ dataUser: data.result });
+						console.log(store.dataUser);
 					} else if (response.status === 400) {
 						throw new Error('Bad Request: ' + data.msg);
 					} else if (response.status === 500) {
@@ -34,6 +36,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 			register: async (email, password) => {
+				const store = getStore();
 				console.log(email, password);
 				const options = {
 					method: 'POST',
@@ -51,6 +54,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					const data = await response.json();
 
 					if (response.status === 200) {
+						console.log(data);
 						return true;
 					} else if (response.status === 400) {
 						throw new Error('Bad Request: ' + data.msg);
@@ -67,6 +71,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			login: async (email, password) => {
 				const store = getStore();
 				localStorage.setItem('token', null);
+				console.log(email, password);
 				const options = {
 					method: 'POST',
 					headers: {
@@ -83,7 +88,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 					const data = await response.json();
 
 					if (response.status === 200) {
+						console.log(data);
 						localStorage.setItem('token', data.token);
+						console.log(email);
 						setStore({ currentUser: { email: email } });
 						setStore({ logged: true });
 						return true;
@@ -100,6 +107,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 			validToken: async () => {
+				const store = getStore();
 				const token = localStorage.getItem('token');
 				const options = {
 					headers: {
