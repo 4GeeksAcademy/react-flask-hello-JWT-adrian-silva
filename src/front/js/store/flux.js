@@ -37,7 +37,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 			register: async (email, password) => {
 				const store = getStore();
-				console.log(email, password);
 				const options = {
 					method: 'POST',
 					headers: {
@@ -48,13 +47,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 						password: password
 					})
 				};
-				console.log('antes del fetch register');
 				try {
 					const response = await fetch('https://glorious-chainsaw-g475p49xxqxhpwqr-3001.app.github.dev/api/user', options);
 					const data = await response.json();
 
 					if (response.status === 200) {
-						console.log(data);
 						return true;
 					} else if (response.status === 400) {
 						throw new Error('Bad Request: ' + data.msg);
@@ -71,7 +68,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 			login: async (email, password) => {
 				const store = getStore();
 				localStorage.setItem('token', null);
-				console.log(email, password);
 				const options = {
 					method: 'POST',
 					headers: {
@@ -82,7 +78,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 						password: password
 					})
 				};
-				console.log('antes del fetch login');
 				try {
 					const response = await fetch('https://glorious-chainsaw-g475p49xxqxhpwqr-3001.app.github.dev/api/login', options);
 					const data = await response.json();
@@ -118,7 +113,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 				try {
 					const response = await fetch('https://glorious-chainsaw-g475p49xxqxhpwqr-3001.app.github.dev/api/valid-token', options);
 					const data = await response.json();
-
 					if (response.status === 200) {
 						console.log('Token válido y usuario logeado');
 						setStore({ logged: true });
@@ -139,7 +133,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 					return false;
 				}
 			}
-
 		}
 	};
 };
